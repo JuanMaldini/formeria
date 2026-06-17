@@ -1,0 +1,409 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --text: #e8eaed;
+  --muted: #8b93a1;
+  --accent: #6ea8fe;
+  --error: #ff6b6b;
+  --border: #2a2f3a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen--center {
+  align-items: center;
+  justify-content: center;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.brand--sm {
+  font-size: 1.05rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ---------- Login ---------- */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  width: min(360px, 92vw);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login h1 {
+  font-size: 1.6rem;
+}
+
+.logo {
+  object-fit: contain;
+  display: block;
+}
+
+.logo--lg {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 4px;
+  border-radius: 16px;
+}
+
+.logo--sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.input {
+  background: #0c0e12;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.btn {
+  background: var(--accent);
+  color: #0b1020;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 4px 0 0;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.error--center {
+  text-align: center;
+  padding: 6px 0;
+}
+
+.error-detail {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 0;
+  margin-top: 4px;
+}
+
+/* ---------- Dashboard ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+.topbar__email {
+  font-size: 0.85rem;
+}
+
+.composer {
+  padding: 16px 20px 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.input--big {
+  width: min(420px, 70vw);
+  text-align: left;
+  font-size: 1.1rem;
+  padding: 12px 16px;
+}
+
+/* Boton de sesion flotante arriba a la derecha (sin navbar). */
+.authbar {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Cloud ---------- */
+.cloud {
+  position: relative;
+  flex: 1;
+  margin: 8px auto 24px;
+  width: min(900px, 96vw);
+  min-height: 420px;
+}
+
+.cloud--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cloud__word {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: font-size 280ms ease;
+  white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Cuando una palabra es un boton (la tuya), quitar el estilo nativo del boton. */
+button.cloud__word {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+}
+
+.cloud__text {
+  font-size: 1em;
+}
+
+.cloud__count {
+  margin-top: 4px;
+  font-size: 0.5em; /* mitad de tamano que la palabra */
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+/* Palabras clicables (con sesion): votar o quitar el voto. */
+.cloud__word--mine,
+.cloud__word--votable {
+  cursor: pointer;
+  outline: none;
+}
+
+.cloud__word--mine:hover .cloud__text,
+.cloud__word--mine:focus-visible .cloud__text,
+.cloud__word--votable:hover .cloud__text,
+.cloud__word--votable:focus-visible .cloud__text {
+  opacity: 0.85;
+}
+
+/* Burbuja que aparece encima de la palabra al pasar el cursor. */
+.cloud__word--mine:hover::after,
+.cloud__word--mine:focus-visible::after,
+.cloud__word--votable:hover::after,
+.cloud__word--votable:focus-visible::after {
+  position: absolute;
+  top: -1.4em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: none;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cloud__word--mine:hover::after,
+.cloud__word--mine:focus-visible::after {
+  content: "quitar mi voto";
+}
+
+.cloud__word--votable:hover::after,
+.cloud__word--votable:focus-visible::after {
+  content: "votar";
+}
+
+/* ---------- Autocompletado ---------- */
+.composer__field {
+  position: relative;
+  width: min(560px, 92vw);
+}
+
+.composer__field .input--big {
+  width: 100%;
+}
+
+.suggestions {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.suggestions__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.suggestions__item--active {
+  background: #232734;
+}
+
+.suggestions__word {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.suggestions__count {
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: #0c0e12;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 9px;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* ---------- Modal de login ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(6, 8, 13, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: modal-fade 180ms ease both;
+}
+
+.modal {
+  position: relative;
+  animation: modal-pop 220ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+
+.modal .login {
+  margin: 0;
+}
+
+.modal__close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+.modal__close:hover {
+  background: #232734;
+  transform: scale(1.08);
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
