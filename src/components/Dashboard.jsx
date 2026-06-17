@@ -11,6 +11,7 @@ import {
 import { formatPbError } from "../lib/errors.js";
 import { normalizeWord } from "../lib/words.js";
 import WordCloud from "./WordCloud.jsx";
+import Analytics from "./Analytics.jsx";
 
 const PB_ENV = { PB_URL, PB_COLLECTION, PB_TOKEN };
 const MAX_SUGGESTIONS = 8;
@@ -25,6 +26,7 @@ export default function Dashboard({ email, onLogout, onOpenLogin }) {
   const [sending, setSending] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1); // sugerencia resaltada
   const [open, setOpen] = useState(false); // mostrar desplegable
+  const [pendingWord, setPendingWord] = useState(""); // palabra escrita sin sesion
   const blurTimer = useRef(null);
 
   const refresh = useCallback(async () => {
@@ -52,6 +54,16 @@ export default function Dashboard({ email, onLogout, onOpenLogin }) {
     refresh();
   }, [refresh]);
 
+  // Si el usuario escribio una palabra sin sesion, al loguearse se envia sola.
+  useEffect(() => {
+    if (email && pendingWord) {
+      const w = pendingWord;
+      setPendingWord("");
+      submitWord(w);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, pendingWord]);
+
   // Sugerencias: filtra TODAS las palabras existentes (de todos los usuarios)
   // contra lo que se va escribiendo. Prefijo primero, luego coincidencia parcial.
   const suggestions = useMemo(() => {
@@ -77,6 +89,7 @@ export default function Dashboard({ email, onLogout, onOpenLogin }) {
     // El input es visible siempre, pero para guardar hace falta sesion.
     if (!email) {
       setOpen(false);
+      setPendingWord(word); // se enviara sola al iniciar sesion
       onOpenLogin && onOpenLogin();
       return;
     }
@@ -155,6 +168,7 @@ export default function Dashboard({ email, onLogout, onOpenLogin }) {
 
   return (
     <div className="screen">
+      <section className="dash-page">
       {/* Boton de sesion flotante (sin navbar). */}
       <div className="authbar">
         {email ? (
@@ -230,6 +244,9 @@ export default function Dashboard({ email, onLogout, onOpenLogin }) {
       ) : (
         <WordCloud items={items} mine={mine} onWordClick={handleWordClick} canVote={Boolean(email)} />
       )}
+      </section>
+
+      <Analytics items={items} />
     </div>
   );
 }
