@@ -530,11 +530,6 @@ button.cloud__word {
   white-space: nowrap;
 }
 
-.cloud__card.is-mine .cloud__vote {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
 .cloud__vote:hover,
 .cloud__vote:focus-visible {
   opacity: 0.85;
